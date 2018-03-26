@@ -6,8 +6,8 @@ The project represents the C++ implementation of the kNN algorithm of the classi
 Basic functionality to be implemented:
 
   1. Some of efficient storage structures: 
-    - Quad-tree (https://en.wikipedia.org/wiki/Quadtree) 
-    - kD-tree (https://en.wikipedia.org/wiki/K-d_tree)
+    - Quad-tree (https://en.wikipedia.org/wiki/Quadtree);
+    - kD-tree (https://en.wikipedia.org/wiki/K-d_tree);
     
-  2. User interface, prediction and visualization of values by using the kNN classifier
+  2. User interface for prediction and visualization of values by using the kNN classifier;
 
