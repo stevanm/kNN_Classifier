@@ -5,7 +5,7 @@ The project represents the C++ implementation of the kNN classification algorith
 
 Basic functionality to be implemented:
 
-  1. Some of efficient storage structures: 
+  1. Some of efficient spatial data structures: 
     - Quad-tree (https://en.wikipedia.org/wiki/Quadtree);
     - kD-tree (https://en.wikipedia.org/wiki/K-d_tree);
     
