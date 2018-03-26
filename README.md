@@ -1,7 +1,7 @@
 # kNN_Classifier
 kNN classifier
 
-The project represents the C++ implementation of the kNN algorithm of the classification.
+The project represents the C++ implementation of the kNN classification algorithm.
 
 Basic functionality to be implemented:
 
