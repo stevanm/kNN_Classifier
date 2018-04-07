@@ -1,5 +1,7 @@
-# mlSmart
-Machine Learning Smart (mlSmart)
+# mlSmart game
+Machine Learning Smart (mlSmart) game
+
+About mlSmart game:
 
 - The project represents the Python implementation of the game for two players. 
 
