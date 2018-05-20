@@ -1,0 +1,2 @@
+class GameStatistic:
+    pass
