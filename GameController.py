@@ -13,14 +13,16 @@ class GameController:
     def __init__(self):
 
         pygame.init()
-        self.Surface = pygame.display.set_mode((800, 600), pygame.FULLSCREEN)
+        self.Surface = pygame.display.set_mode((800, 600))
         self.Surface.fill(pygame.Color(255, 255, 255))
 
         self.player = Player("Test player", 200, 300)
         self.obstacles.append(Obstacle(0,400,200,200))
         self.map = Map()
+        self.timePassed = 0
 
     def Move(self):
+        self.timePassed = self.timePassed + 0.03
         time.sleep(0.030)
         self.player.Move(self.map)
 
@@ -51,6 +53,10 @@ class GameController:
                 self.player.angle -= 30
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                 self.player.angle += 30
+
+    def Score(self):
+
+        self.player.CalculateScore(self.map.checkLines, self.timePassed)
 
         '''
         TODO:

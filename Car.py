@@ -13,6 +13,22 @@ class Car(Item):
         self.angle = 0
         self.available = True
         self.name = None
+        self.score = 0
+        self.checkPoint = 0
+        self.startDistance = 0
+
+    #Score
+    def CalculateScore(self, checkLine, timePassed):
+        p = Point(self.x, self.y)
+        k = checkLine[self.checkPoint]
+        distance = p.Distance(k)
+        if self.startDistance == 0:
+            self.startDistance = distance
+        self.score = self.checkPoint*500 + 500 -(distance-3)/self.startDistance * 500 - timePassed
+        if distance < 3:
+            self.checkPoint = self.checkPoint+1
+            self.startDistance = 0
+        print(int(self.score))
 
     # Check is vehicle on the map
     def CheckAmIOnMap(self, map):

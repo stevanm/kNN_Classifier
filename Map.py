@@ -13,6 +13,9 @@ class Map:
     def scaleCoordinates(self,x):
         return np.array([x[0]*800,x[1]*600])
 
+    def scaleCheckpoints(self, p):
+        return [Point(p[0].x*800, p[0].y*600),Point(p[1].x*800, p[1].y*600)]
+
     def __init__(self):
         self.startPosition = Point(100,300) #start race position
         self.endPosition = None # end race position
@@ -22,7 +25,9 @@ class Map:
         self.relativeDots = [np.array([0.3, 0]), np.array([0.1, 0.2]), np.array([0, 0.6]), np.array([0.15, 0.85]), np.array([0.7, 1]), np.array([0.8, 0.8]), np.array([1, 0.65]), np.array([0.9, 0.4]), np.array([0.7, 0.3]), np.array([0.65, 0.2])]
         self.dots = list(map(lambda x:self.scaleCoordinates(x), self.relativeDots))
         self.relativeDots = [np.array([0.4, 0.4]), np.array([0.4, 0.6]), np.array([0.6, 0.6]), np.array([0.6, 0.4])]
-        self.obstacleDots = list(map(lambda x:self.scaleCoordinates(x), self.relativeDots))
+        self.obstacleDots = list(map(lambda x: self.scaleCoordinates(x), self.relativeDots))
+        self.relativeCheckLines = [[Point(0.5, 0.4), Point(0.5, 0.2)],[Point(0.6, 0.5), Point(0.8, 0.5)],[Point(0.5, 0.6), Point(0.5, 0.8)],[Point(0.2, 0.5), Point(0.4, 0.5)]]
+        self.checkLines = list(map(lambda x: self.scaleCheckpoints(x), self.relativeCheckLines))
 
         self.TriangulateMap()
 

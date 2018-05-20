@@ -10,3 +10,4 @@ if __name__ == '__main__':
         gc.GetInput()
         gc.Draw()
         gc.Move()
+        gc.Score()
