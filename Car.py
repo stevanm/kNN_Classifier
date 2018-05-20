@@ -16,7 +16,10 @@ class Car(Item):
 
     # Check is vehicle on the map
     def CheckAmIOnMap(self, map):
-        for t in map.triangleList:
+        for t in map.triangleObstacleList:
+            if t.isInside(Point(self.x, self.y)):
+                return False
+        for t in map.triangleDotList:
             if t.isInside(Point(self.x, self.y)):
                 return True
         return False
@@ -30,6 +33,8 @@ class Car(Item):
             self.resetState(map)
 
     def resetState(self, map):
+        self.speed = 0
+        self.angle = 0
         self.x = map.startPosition.x
         self.y = map.startPosition.y
 

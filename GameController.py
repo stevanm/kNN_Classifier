@@ -13,10 +13,10 @@ class GameController:
     def __init__(self):
 
         pygame.init()
-        self.Surface = pygame.display.set_mode((800, 600))
+        self.Surface = pygame.display.set_mode((800, 600), pygame.FULLSCREEN)
         self.Surface.fill(pygame.Color(255, 255, 255))
 
-        self.player = Player("Test player", 100, 500)
+        self.player = Player("Test player", 200, 300)
         self.obstacles.append(Obstacle(0,400,200,200))
         self.map = Map()
 
@@ -26,8 +26,12 @@ class GameController:
 
 
     def Draw(self):
-        pygame.draw.rect(self.Surface, pygame.Color(0,255,0), (0,400, 200,200))
-        pygame.draw.circle(self.Surface, (255, 0, 0), (int(self.player.x), int(self.player.y)), int(20))
+        pygame.draw.rect(self.Surface, (255,255,255), [(0,0), (800,600)] )
+        listpoint = list(map(lambda x: (x[0],x[1]), self.map.dots))
+        pygame.draw.polygon(self.Surface, pygame.Color(255,0,255), listpoint, 10)
+        listpoint = list(map(lambda x: (x[0],x[1]), self.map.obstacleDots))
+        pygame.draw.polygon(self.Surface, pygame.Color(255,0,255), listpoint, 10)
+        pygame.draw.circle(self.Surface, (255, 0, 0), (int(self.player.x), int(self.player.y)), int(10))
         pygame.display.flip()
 
     # get user input
@@ -44,9 +48,9 @@ class GameController:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
                 self.player.speed -= 0.5
             if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-                self.player.angle += 30
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                 self.player.angle -= 30
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+                self.player.angle += 30
 
         '''
         TODO:
