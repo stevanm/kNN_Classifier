@@ -12,6 +12,7 @@ class Car(Item):
         self.speed = 0
         self.angle = 0
         self.available = True
+        self.name = None
 
     # Check is vehicle on the map
     def CheckAmIOnMap(self, map):

@@ -1,5 +1,7 @@
 from Point import Point
 from Triangle import Triangle
+from Delaunay2d import Delaunay2d
+
 
 class Map:
 
@@ -7,13 +9,18 @@ class Map:
     triangleList = [Triangle(Point(0,400), Point(200,400), Point(200, 600)),
                     Triangle(Point(0,400), Point(0,600), Point(200, 600))]
 
+
     def __init__(self):
         self.startPosition = Point(0,400) #start race position
         self.endPosition = None # end race position
+        self.DelaunayTriangleList = list()
+
 
     # Triangulate map
     def TriangulateMap(self):
-        pass
+        self.DelaunayTriangleList = Delaunay2d()
+
+
 
     '''
     TODO:
