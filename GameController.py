@@ -43,7 +43,8 @@ class GameController:
         pygame.draw.polygon(self.Surface, pygame.Color(255,0,255), listpoint, 10)
         listpoint = list(map(lambda x: (x[0],x[1]), self.map.obstacleDots))
         pygame.draw.polygon(self.Surface, pygame.Color(255,0,255), listpoint, 10)
-        pygame.draw.circle(self.Surface, (255, 0, 0), (int(self.player.x), int(self.player.y)), int(10))
+        #pygame.draw.circle(self.Surface, (255, 0, 0), (int(self.player.x), int(self.player.y)), int(10))
+        self.Surface.blit(self.player.carModelPhoto,(int(self.player.x), int(self.player.y)))
 
         #bgPhotoScaled = pygame.transform.scale(self.bgPhoto, (self.winWidth, self.winHeight))
         #self.Surface.blit(bgPhotoScaled, (0,0))
@@ -64,9 +65,16 @@ class GameController:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
                 self.player.speed -= 0.5
             if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+                self.player.preAngle = self.player.angle
                 self.player.angle -= 30
+                #self.player.rotateCarModelPhoto(30)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+                self.player.preAngle = self.player.angle
                 self.player.angle += 30
+                #self.player.rotateCarModelPhoto(-30)
+
+
+
 
 
     def Score(self):

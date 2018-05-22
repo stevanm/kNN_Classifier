@@ -13,6 +13,7 @@ class Car(Item):
         self.x = x_coord
         self.y = y_coord
         self.speed = 0
+        self.preAngle = 0
         self.angle = 0
         self.available = True
         self.name = None
@@ -20,6 +21,7 @@ class Car(Item):
         self.checkPoint = 0
         self.startDistance = 0
         self.carModels = self.createCarImageList()
+        self.carModelPhoto = self.setCarModelPhoto()
 
     #Score
     def CalculateScore(self, checkLine, timePassed):
@@ -58,24 +60,40 @@ class Car(Item):
         self.x = map.startPosition.x
         self.y = map.startPosition.y
 
+    # Create car image list
     def createCarImageList(self):
-        self.carList = list()
+        self.__carList = list()
         for p in os.listdir("car_images"):
-            self.carList.append(p)
-        print(self.carList)
+            self.__carList.append(p)
+        print(self.__carList)
 
+
+    def setCarModelPhoto(self):
+        carModelPhotoName = self.__carList[random.randint(0, len(self.__carList) - 1)]
+        self.carModelPhoto = pygame.image.load(os.path.join('car_images', carModelPhotoName))
+        carModelPathRect = self.carModelPhoto.get_rect()
+        xCenter, yCenter =  carModelPathRect.center
+        self.carModelPhoto = pygame.transform.scale(self.carModelPhoto, (70, 35))
+        carModelPathRect.centerx = self.x
+        carModelPathRect.centery = self.y
+        return self.carModelPhoto
+
+    #BUG: Prilikom rotacije uvecava se obuhvat oko automobila
     '''
-    def visualizaCar(self):
-        self.carModelPhotoName = self.carList[random.randint(0, len(self.carList) - 1)]
-        carModelPath = pygame.image.load("car_images/" + str(self.carModelPhotoName))
-        carModelPathRect = carModelPath.get_rec()
-        self.x = carModelPathRect.centerx
-        self.y = carModelPathRect.centery
-    '''
+    def rotateCarModelPhoto(self, angle):
+        carModelPathRect = self.carModelPhoto.get_rect()
+        xOldCenter, yOldCenter = carModelPathRect.center
+        self.carModelPhoto = pygame.transform.rotate(self.carModelPhoto,self.angle)
+        carModelPathRect.centerx = xOldCenter
+        carModelPathRect.centery = yOldCenter
+        return self.carModelPhoto
+       '''
+
+
+
 
     '''
     TODO:
     1. Oblik vozila (slicica, strelica ili slicno...)
-    2. Ograniciti da ne moze da ide u rikverc i da ne moze da se menja ugao kada se stoji
     3. Dodeljivanje random boje svakom vozilu
     '''
