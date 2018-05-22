@@ -1,4 +1,6 @@
 from Car import Car
+import random
+import pygame
 
 class Player(Car):
 
@@ -6,7 +8,6 @@ class Player(Car):
         super().__init__(x_coord,y_coord)
         self.name = player_name
 
-    '''
-    TODO:
-    1. 
-    '''
+
+
+

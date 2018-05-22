@@ -2,6 +2,9 @@ from Item import Item
 from Triangle import Triangle
 from Point import Point
 import math
+import os
+import random
+import pygame
 
 class Car(Item):
 
@@ -16,6 +19,7 @@ class Car(Item):
         self.score = 0
         self.checkPoint = 0
         self.startDistance = 0
+        self.carModels = self.createCarImageList()
 
     #Score
     def CalculateScore(self, checkLine, timePassed):
@@ -54,6 +58,20 @@ class Car(Item):
         self.x = map.startPosition.x
         self.y = map.startPosition.y
 
+    def createCarImageList(self):
+        self.carList = list()
+        for p in os.listdir("car_images"):
+            self.carList.append(p)
+        print(self.carList)
+
+    '''
+    def visualizaCar(self):
+        self.carModelPhotoName = self.carList[random.randint(0, len(self.carList) - 1)]
+        carModelPath = pygame.image.load("car_images/" + str(self.carModelPhotoName))
+        carModelPathRect = carModelPath.get_rec()
+        self.x = carModelPathRect.centerx
+        self.y = carModelPathRect.centery
+    '''
 
     '''
     TODO:

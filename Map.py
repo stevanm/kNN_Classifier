@@ -2,6 +2,7 @@ from Point import Point
 from Triangle import Triangle
 from Delaunay2d import Delaunay2d
 import numpy as np
+import GameController
 
 
 class Map:
@@ -10,13 +11,10 @@ class Map:
     #   triangleList = None #= [Triangle(Point(0,400), Point(200,400), Point(200, 600)),
     #                Triangle(Point(0,400), Point(0,600), Point(200, 600))]
 
-    def scaleCoordinates(self,x):
-        return np.array([x[0]*800,x[1]*600])
 
-    def scaleCheckpoints(self, p):
-        return [Point(p[0].x*800, p[0].y*600),Point(p[1].x*800, p[1].y*600)]
-
-    def __init__(self):
+    def __init__(self, w, h):
+        self.winWidth = w
+        self.winHeight = h
         self.startPosition = Point(100,300) #start race position
         self.endPosition = None # end race position
         self.DelaunayTriangleList = list()
@@ -28,8 +26,15 @@ class Map:
         self.obstacleDots = list(map(lambda x: self.scaleCoordinates(x), self.relativeDots))
         self.relativeCheckLines = [[Point(0.5, 0.4), Point(0.5, 0.2)],[Point(0.6, 0.5), Point(0.8, 0.5)],[Point(0.5, 0.6), Point(0.5, 0.8)],[Point(0.2, 0.5), Point(0.4, 0.5)]]
         self.checkLines = list(map(lambda x: self.scaleCheckpoints(x), self.relativeCheckLines))
-
         self.TriangulateMap()
+
+
+    def scaleCoordinates(self, x):
+        return np.array([x[0] * self.winWidth, x[1] * self.winHeight])
+
+    def scaleCheckpoints(self, p):
+        return [Point(p[0].x * self.winWidth, p[0].y * self.winHeight),
+                Point(p[1].x * self.winWidth, p[1].y * self.winHeight)]
 
     # Triangulate map
     def TriangulateMap(self):
