@@ -44,8 +44,8 @@ class GameController:
         listpoint = list(map(lambda x: (x[0],x[1]), self.map.obstacleDots))
         pygame.draw.polygon(self.Surface, pygame.Color(255,0,255), listpoint, 10)
         #pygame.draw.circle(self.Surface, (255, 0, 0), (int(self.player.x), int(self.player.y)), int(10))
-        self.Surface.blit(self.player.carModelPhoto,(int(self.player.x), int(self.player.y)))
-
+        carModel = pygame.transform.rotate(self.player.carModelPhoto, -self.player.angle)
+        self.Surface.blit(carModel,(int(self.player.x)-35, int(self.player.y)-18))
         #bgPhotoScaled = pygame.transform.scale(self.bgPhoto, (self.winWidth, self.winHeight))
         #self.Surface.blit(bgPhotoScaled, (0,0))
 
