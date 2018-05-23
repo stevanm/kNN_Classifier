@@ -15,3 +15,6 @@ class Point:
 
     def Distance(self, line):
         return self.DistanceToDot(line[0]) + self.DistanceToDot(line[1]) - line[0].DistanceToDot(line[1])
+
+    def __str__(self):
+        return "(" + str(self.x) + ", " + str(self.y) + ")"

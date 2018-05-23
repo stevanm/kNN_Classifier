@@ -20,6 +20,7 @@ class Car(Item):
         self.score = 0
         self.checkPoint = 0
         self.startDistance = 0
+        self.__carList = list()
         self.carModels = self.createCarImageList()
         self.carModelPhoto = self.setCarModelPhoto()
 
@@ -38,10 +39,7 @@ class Car(Item):
 
     # Check is vehicle on the map
     def CheckAmIOnMap(self, map):
-        for t in map.triangleObstacleList:
-            if t.isInside(Point(self.x, self.y)):
-                return False
-        for t in map.triangleDotList:
+        for t in map.TriangleList:
             if t.isInside(Point(self.x, self.y)):
                 return True
         return False
@@ -62,10 +60,9 @@ class Car(Item):
 
     # Create car image list
     def createCarImageList(self):
-        self.__carList = list()
         for p in os.listdir("car_images"):
             self.__carList.append(p)
-        print(self.__carList)
+
 
 
     def setCarModelPhoto(self):
@@ -77,20 +74,6 @@ class Car(Item):
         carModelPathRect.centerx = self.x
         carModelPathRect.centery = self.y
         return self.carModelPhoto
-
-    #BUG: Prilikom rotacije uvecava se obuhvat oko automobila
-    '''
-    def rotateCarModelPhoto(self, angle):
-        carModelPathRect = self.carModelPhoto.get_rect()
-        xOldCenter, yOldCenter = carModelPathRect.center
-        self.carModelPhoto = pygame.transform.rotate(self.carModelPhoto,self.angle)
-        carModelPathRect.centerx = xOldCenter
-        carModelPathRect.centery = yOldCenter
-        return self.carModelPhoto
-       '''
-
-
-
 
     '''
     TODO:

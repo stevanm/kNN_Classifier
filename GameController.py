@@ -22,12 +22,14 @@ class GameController:
         #self.winWidth, self.winHeight = self.bgPhoto.get_rect().size #game window size == photo size
         self.winWidth = 1600
         self.winHeight = 800
+        self.map = Map(self.winWidth, self.winHeight)
         self.Surface = pygame.display.set_mode((self.winWidth, self.winHeight))
         self.Surface.fill(pygame.Color(255, 255, 255))
         self.player = Player("Test player", 200, 300)
-        self.obstacles.append(Obstacle(0,400,200,200))
-        self.map = Map(self.winWidth, self.winHeight)
+        #self.obstacles.append(Obstacle(0,400,200,200))
+
         self.timePassed = 0
+
 
 
     def Move(self):
@@ -36,18 +38,16 @@ class GameController:
         self.player.Move(self.map)
 
 
+
     def Draw(self):
 
-        pygame.draw.rect(self.Surface, (255,255,255), [(0,0), (self.winWidth, self.winHeight)] )
-        listpoint = list(map(lambda x: (x[0],x[1]), self.map.dots))
-        pygame.draw.polygon(self.Surface, pygame.Color(255,0,255), listpoint, 10)
-        listpoint = list(map(lambda x: (x[0],x[1]), self.map.obstacleDots))
-        pygame.draw.polygon(self.Surface, pygame.Color(255,0,255), listpoint, 10)
-        #pygame.draw.circle(self.Surface, (255, 0, 0), (int(self.player.x), int(self.player.y)), int(10))
-        carModel = pygame.transform.rotate(self.player.carModelPhoto, -self.player.angle)
-        self.Surface.blit(carModel,(int(self.player.x)-35, int(self.player.y)-18))
+        # Draw background photo
         #bgPhotoScaled = pygame.transform.scale(self.bgPhoto, (self.winWidth, self.winHeight))
         #self.Surface.blit(bgPhotoScaled, (0,0))
+
+        # Draw player car
+        carModel = pygame.transform.rotate(self.player.carModelPhoto, -self.player.angle)
+        self.Surface.blit(carModel,(int(self.player.x)-35, int(self.player.y)-18))
 
         pygame.display.flip()
 
@@ -78,7 +78,6 @@ class GameController:
 
 
     def Score(self):
-
         self.player.CalculateScore(self.map.checkLines, self.timePassed)
 
         '''
@@ -90,3 +89,6 @@ class GameController:
         '''
 
 
+if __name__ == '__main__':
+    gc = GameController()
+    print(gc.map.vectorMap)
