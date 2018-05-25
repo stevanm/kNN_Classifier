@@ -18,10 +18,10 @@ class GameController:
 
         pygame.init()
         pygame.display.set_caption('Machine Learning Smarter')
-        #self.bgPhoto = pygame.image.load('path/race_path.jpg') #background photo
-        #self.winWidth, self.winHeight = self.bgPhoto.get_rect().size #game window size == photo size
-        self.winWidth = 1600
-        self.winHeight = 800
+        self.bgPhoto = pygame.image.load('path/race_path.jpg') #background photo
+        self.winWidth, self.winHeight = self.bgPhoto.get_rect().size #game window size == photo size
+        #self.winWidth = 1600
+        #self.winHeight = 800
         self.Surface = pygame.display.set_mode((self.winWidth, self.winHeight))
         self.Surface.fill(pygame.Color(255, 255, 255))
         self.player = Player("Test player", 200, 300)
@@ -44,10 +44,10 @@ class GameController:
         listpoint = list(map(lambda x: (x[0],x[1]), self.map.obstacleDots))
         pygame.draw.polygon(self.Surface, pygame.Color(255,0,255), listpoint, 10)
         #pygame.draw.circle(self.Surface, (255, 0, 0), (int(self.player.x), int(self.player.y)), int(10))
+        bgPhotoScaled = pygame.transform.scale(self.bgPhoto, (self.winWidth, self.winHeight))
+        self.Surface.blit(bgPhotoScaled, (0,0))
         carModel = pygame.transform.rotate(self.player.carModelPhoto, -self.player.angle)
-        self.Surface.blit(carModel,(int(self.player.x)-35, int(self.player.y)-18))
-        #bgPhotoScaled = pygame.transform.scale(self.bgPhoto, (self.winWidth, self.winHeight))
-        #self.Surface.blit(bgPhotoScaled, (0,0))
+        self.Surface.blit(carModel, (int(self.player.x) - 20, int(self.player.y) - 10))
 
         pygame.display.flip()
 
@@ -65,12 +65,10 @@ class GameController:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
                 self.player.speed -= 0.5
             if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-                self.player.preAngle = self.player.angle
-                self.player.angle -= 30
+                self.player.ChangeDirection(1)
                 #self.player.rotateCarModelPhoto(30)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-                self.player.preAngle = self.player.angle
-                self.player.angle += 30
+                self.player.ChangeDirection(2)
                 #self.player.rotateCarModelPhoto(-30)
 
 

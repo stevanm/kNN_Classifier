@@ -26,7 +26,7 @@ class Car(Item):
     #Score
     def CalculateScore(self, checkLine, timePassed):
         p = Point(self.x, self.y)
-        k = checkLine[self.checkPoint]
+        k = checkLine[self.checkPoint%4]
         distance = p.Distance(k)
         if self.startDistance == 0:
             self.startDistance = distance
@@ -46,6 +46,14 @@ class Car(Item):
                 return True
         return False
 
+    def ChangeDirection(self, command):
+        if(command == 1):
+            self.preAngle = self.angle
+            self.angle -= 30
+        if(command == 2):
+            self.preAngle = self.angle
+            self.angle += 30
+
     # move self
     def Move(self, map):
         if self.CheckAmIOnMap(map):
@@ -59,6 +67,8 @@ class Car(Item):
         self.angle = 0
         self.x = map.startPosition.x
         self.y = map.startPosition.y
+        self.score = 0
+        self.checkPoint = 0
 
     # Create car image list
     def createCarImageList(self):
@@ -73,7 +83,7 @@ class Car(Item):
         self.carModelPhoto = pygame.image.load(os.path.join('car_images', carModelPhotoName))
         carModelPathRect = self.carModelPhoto.get_rect()
         xCenter, yCenter =  carModelPathRect.center
-        self.carModelPhoto = pygame.transform.scale(self.carModelPhoto, (70, 35))
+        self.carModelPhoto = pygame.transform.scale(self.carModelPhoto, (40, 20))
         carModelPathRect.centerx = self.x
         carModelPathRect.centery = self.y
         return self.carModelPhoto
