@@ -78,6 +78,8 @@ class Car(Item):
     def setCarModelPhoto(self):
         carModelPhotoName = self.__carList[random.randint(0, len(self.__carList) - 1)]
         self.carModelPhoto = pygame.image.load(os.path.join('car_images', carModelPhotoName))
+        transColor = self.carModelPhoto.get_at((0, 0))
+        self.carModelPhoto.set_colorkey(transColor)
         carModelPathRect = self.carModelPhoto.get_rect()
         xCenter, yCenter =  carModelPathRect.center
         self.carModelPhoto = pygame.transform.scale(self.carModelPhoto, (40, 20))
@@ -88,5 +90,4 @@ class Car(Item):
     '''
     TODO:
     1. Oblik vozila (slicica, strelica ili slicno...)
-    3. Dodeljivanje random boje svakom vozilu
     '''
