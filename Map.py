@@ -8,20 +8,18 @@ class Map:
     def __init__(self, w, h):
         self.winWidth = w
         self.winHeight = h
-        self.startPosition = Point(100,300) #start race position
+        self.startPosition = Point(890,565) #start race position
         self.endPosition = None # end race position
         self.vectorMap = VectorMap()
         self.TriangleList = self.vectorMap.triangleObjects
-        self.relativeCheckLines = [[Point(0.5, 0.4), Point(0.5, 0.2)],[Point(0.6, 0.5), Point(0.8, 0.5)],[Point(0.5, 0.6), Point(0.5, 0.8)],[Point(0.2, 0.5), Point(0.4, 0.5)]]
-        self.checkLines = list(map(lambda x: self.scaleCheckpoints(x), self.relativeCheckLines))
+        self.checkLines = [[Point(1420, 450), Point(1480, 530)], [Point(1360, 140), Point(1440, 80)],
+                           [Point(900, 225), Point(900, 335)], [Point(360, 50), Point(440, 130)],
+                           [Point(90, 410), Point(190, 410)],[Point(470, 420), Point(470, 520)],[Point(890, 510), Point(890, 620)]]
+
 
 
     def scaleCoordinates(self, x):
         return np.array([x[0] * self.winWidth, x[1] * self.winHeight])
-
-    def scaleCheckpoints(self, p):
-        return [Point(p[0].x * self.winWidth, p[0].y * self.winHeight),
-                Point(p[1].x * self.winWidth, p[1].y * self.winHeight)]
 
     '''
     TODO:

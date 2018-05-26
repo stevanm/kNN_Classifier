@@ -24,17 +24,18 @@ class GameController:
         self.map = Map(1600,668)
         self.Surface = pygame.display.set_mode((self.winWidth, self.winHeight))
         self.Surface.fill(pygame.Color(255, 255, 255))
-        self.player = Player("Test player", 200, 300)
+        self.player = Player("Test player", 890, 565)
         #self.obstacles.append(Obstacle(0,400,200,200))
         self.timePassed = 0
+        self.bgPhoto = pygame.image.load('path/race_path.jpg')  # background photo
+
 
 
     #Move object(player) on map
     def Move(self):
         self.timePassed = self.timePassed + 0.03
-        time.sleep(0.030)
+        time.sleep(0.01)
         self.player.Move(self.map)
-
         if self.isThereObstacle(self.map)[0] == True or self.isThereObstacle(self.map)[1] == True:
            print(self.isThereObstacle(self.map))
 
@@ -58,8 +59,6 @@ class GameController:
 
     #Draw the scene
     def Draw(self):
-
-        self.bgPhoto = pygame.image.load('path/race_path.jpg')  # background photo
 
         # Draw background photo
         bgPhotoScaled = pygame.transform.scale(self.bgPhoto, (self.winWidth, self.winHeight))

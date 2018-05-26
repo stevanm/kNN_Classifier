@@ -24,21 +24,23 @@ class Car(Item):
         self.carModelPhoto = self.setCarModelPhoto()
 
         # Distance range used for collision detection
-        self.frontCollisionLineDistance = 0.1
-        self.frontDistanceRange = 0.1
+        self.frontCollisionLineDistance = 10
+        self.frontDistanceRange = 10
         self.leftDistanceRange = 0.1
         self.rightDistanceRange = 0.1
-        self.frontCollisionLine = self.calculateFrontCollisionLine()
+        self.frontCollisionLine = list()
+        self.frontCollisionLine.append(Point(0,0))
+        self.frontCollisionLine.append(Point(0,0))
 
         #Score
     def CalculateScore(self, checkLine, timePassed):
         p = Point(self.x, self.y)
-        k = checkLine[self.checkPoint%4]
+        k = checkLine[self.checkPoint%7]
         distance = p.Distance(k)
         if self.startDistance == 0:
             self.startDistance = distance
-        self.score = self.checkPoint*500 + 500 -(distance-3)/self.startDistance * 500 - timePassed
-        if distance < 3:
+        self.score = self.checkPoint*500 + 500 -(distance-20)/self.startDistance * 500 - timePassed
+        if distance < 20:
             self.checkPoint = self.checkPoint+1
             self.startDistance = 0
         print(int(self.score))
@@ -118,4 +120,5 @@ class Car(Item):
         y_t1 = y_middlePointOnFrontLine + self.frontDistanceRange/2 * (y_u /distU)
         x_t2 = x_middlePointOnFrontLine - self.frontDistanceRange / 2 * (x_u / distU)
         y_t2 = y_middlePointOnFrontLine - self.frontDistanceRange / 2 * (y_u / distU)
-        return [Point(x_t1, y_t1), Point(x_t2, y_t2)]
+        self.frontCollisionLine[0]=Point(x_t1, y_t1)
+        self.frontCollisionLine[1]=Point(x_t2, y_t2)
