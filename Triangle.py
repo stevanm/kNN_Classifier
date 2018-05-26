@@ -19,3 +19,6 @@ class Triangle:
                (self.vectorProduct(p, self.p1, self.p2) <= 0 and \
                 self.vectorProduct(p, self.p2, self.p3) <= 0 and \
                 self.vectorProduct(p, self.p3, self.p1) <= 0)
+
+    def __str__(self):
+        return "(" + str(self.p1) + ", " + str(self.p2) + ", " + str(self.p3) + ")"
