@@ -1,5 +1,4 @@
 from Item import Item
-from Triangle import Triangle
 from Point import Point
 import math
 import os
@@ -24,15 +23,24 @@ class Car(Item):
         self.carModels = self.createCarImageList()
         self.carModelPhoto = self.setCarModelPhoto()
 
-    #Score
+        # Distance range used for collision detection
+        self.frontCollisionLineDistance = 10
+        self.frontDistanceRange = 10
+        self.leftDistanceRange = 0.1
+        self.rightDistanceRange = 0.1
+        self.frontCollisionLine = list()
+        self.frontCollisionLine.append(Point(0,0))
+        self.frontCollisionLine.append(Point(0,0))
+
+        #Score
     def CalculateScore(self, checkLine, timePassed):
         p = Point(self.x, self.y)
-        k = checkLine[self.checkPoint%4]
+        k = checkLine[self.checkPoint%7]
         distance = p.Distance(k)
         if self.startDistance == 0:
             self.startDistance = distance
-        self.score = self.checkPoint*500 + 500 -(distance-3)/self.startDistance * 500 - timePassed
-        if distance < 3:
+        self.score = self.checkPoint*500 + 500 -(distance-20)/self.startDistance * 500 - timePassed
+        if distance < 20:
             self.checkPoint = self.checkPoint+1
             self.startDistance = 0
         print(int(self.score))
@@ -59,7 +67,9 @@ class Car(Item):
             self.y += self.speed * math.sin(math.radians(self.angle))
         else:
             self.resetState(map)
+        self.calculateFrontCollisionLine()
 
+    # Reset the car position (set it on the start)
     def resetState(self, map):
         self.speed = 0
         self.angle = 0
@@ -74,7 +84,7 @@ class Car(Item):
             self.__carList.append(p)
 
 
-
+    # Choose the car photo (randomly selection)
     def setCarModelPhoto(self):
         carModelPhotoName = self.__carList[random.randint(0, len(self.__carList) - 1)]
         self.carModelPhoto = pygame.image.load(os.path.join('car_images', carModelPhotoName))
@@ -87,7 +97,28 @@ class Car(Item):
         carModelPathRect.centery = self.y
         return self.carModelPhoto
 
-    '''
-    TODO:
-    1. Oblik vozila (slicica, strelica ili slicno...)
-    '''
+    # Is there obstacle in front od thr car
+    def calculateFrontCollisionLine(self):
+        dx = self.frontCollisionLineDistance * math.cos(math.radians(self.angle))
+        dy = self.frontCollisionLineDistance * math.sin(math.radians(self.angle))
+        x_middlePointOnFrontLine  = self.x + dx
+        y_middlePointOnFrontLine = self.y + dy
+
+        '''
+        x_t1 = x_middlePointOnFrontLine + self.frontDistanceRange * math.cos(math.radians(self.angle))
+        y_t1 = y_middlePointOnFrontLine + self.frontDistanceRange * math.sin(math.radians(self.angle))
+        x_t2 = x_middlePointOnFrontLine + self.frontDistanceRange * math.cos(math.radians(self.angle))
+        y_t2 = y_middlePointOnFrontLine + self.frontDistanceRange * math.sin(math.radians(self.angle))
+        print(str(Point(x_t1, y_t1)))
+        print(str(Point(x_t2, y_t2)))
+        '''
+
+        x_u = y_middlePointOnFrontLine - self.y
+        y_u = self.x - x_middlePointOnFrontLine
+        distU = math.sqrt(x_u * x_u + y_u * y_u)
+        x_t1 = x_middlePointOnFrontLine + self.frontDistanceRange/2 * (x_u /distU)
+        y_t1 = y_middlePointOnFrontLine + self.frontDistanceRange/2 * (y_u /distU)
+        x_t2 = x_middlePointOnFrontLine - self.frontDistanceRange / 2 * (x_u / distU)
+        y_t2 = y_middlePointOnFrontLine - self.frontDistanceRange / 2 * (y_u / distU)
+        self.frontCollisionLine[0]=Point(x_t1, y_t1)
+        self.frontCollisionLine[1]=Point(x_t2, y_t2)
