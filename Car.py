@@ -11,7 +11,7 @@ class Car(Item):
     def __init__(self, x_coord, y_coord):
         self.x = x_coord
         self.y = y_coord
-        self.speed = 0
+        self.speed = 4
         self.preAngle = 0
         self.angle = 0
         self.available = True
@@ -22,28 +22,34 @@ class Car(Item):
         self.__carList = list()
         self.carModels = self.createCarImageList()
         self.carModelPhoto = self.setCarModelPhoto()
+        self.lastComand = 0
+        self.conscomands = 0
 
         # Distance range used for collision detection
-        self.frontCollisionLineDistance = 10
-        self.frontDistanceRange = 10
+        self.frontCollisionLineDistance = 4
+        self.frontDistanceRange = 4
         self.leftDistanceRange = 0.1
         self.rightDistanceRange = 0.1
         self.frontCollisionLine = list()
+        self.frontCollisionLine.append(Point(0,0))
         self.frontCollisionLine.append(Point(0,0))
         self.frontCollisionLine.append(Point(0,0))
 
         #Score
     def CalculateScore(self, checkLine, timePassed):
         p = Point(self.x, self.y)
-        k = checkLine[self.checkPoint%7]
+        k = checkLine[self.checkPoint]
         distance = p.Distance(k)
+#        print(distance)
         if self.startDistance == 0:
             self.startDistance = distance
-        self.score = self.checkPoint*500 + 500 -(distance-20)/self.startDistance * 500 - timePassed
-        if distance < 20:
-            self.checkPoint = self.checkPoint+1
+        #self.score = self.checkPoint*500 + 500 -(distance-20)/self.startDistance * 500 - timePassed
+        if distance < 50:
+            self.checkPoint = (self.checkPoint+1) % 22
+            self.score = self.score + 1
             self.startDistance = 0
-        print(int(self.score))
+        return self.score
+        #print(int(self.score))
 
     # Check is vehicle on the map
     def CheckAmIOnMap(self, map):
@@ -53,10 +59,18 @@ class Car(Item):
         return False
 
     def ChangeDirection(self, command):
-        if(command == 1):
+        if(command == -1):
+            if(self.lastComand == -1):
+                self.conscomands = self.conscomands + 1
+            else:
+                self.conscomands = 0
             self.preAngle = self.angle
             self.angle -= 30
-        if(command == 2):
+        if(command == 1):
+            if(self.lastComand == 1):
+                self.conscomands = self.conscomands + 1
+            else:
+                self.conscomands = 0
             self.preAngle = self.angle
             self.angle += 30
 
@@ -65,13 +79,16 @@ class Car(Item):
         if self.CheckAmIOnMap(map):
             self.x += self.speed * math.cos(math.radians(self.angle))
             self.y += self.speed * math.sin(math.radians(self.angle))
+            suc = False
         else:
             self.resetState(map)
+            suc = True
         self.calculateFrontCollisionLine()
+        return suc
 
     # Reset the car position (set it on the start)
     def resetState(self, map):
-        self.speed = 0
+        self.speed = 1
         self.angle = 0
         self.x = map.startPosition.x
         self.y = map.startPosition.y
@@ -120,5 +137,24 @@ class Car(Item):
         y_t1 = y_middlePointOnFrontLine + self.frontDistanceRange/2 * (y_u /distU)
         x_t2 = x_middlePointOnFrontLine - self.frontDistanceRange / 2 * (x_u / distU)
         y_t2 = y_middlePointOnFrontLine - self.frontDistanceRange / 2 * (y_u / distU)
-        self.frontCollisionLine[0]=Point(x_t1, y_t1)
-        self.frontCollisionLine[1]=Point(x_t2, y_t2)
+        self.frontCollisionLine[0] = Point(x_t1, y_t1)
+        self.frontCollisionLine[1] = Point(x_middlePointOnFrontLine, y_middlePointOnFrontLine)
+        self.frontCollisionLine[2] = Point(x_t2, y_t2)
+
+        dx = self.frontCollisionLineDistance * math.cos(math.radians(self.angle-30))
+        dy = self.frontCollisionLineDistance * math.sin(math.radians(self.angle-30))
+        x_middlePointOnFrontLine  = self.x + dx
+        y_middlePointOnFrontLine = self.y + dy
+        self.frontCollisionLine[0] = Point(x_middlePointOnFrontLine, y_middlePointOnFrontLine)
+
+        dx = self.frontCollisionLineDistance * math.cos(math.radians(self.angle))
+        dy = self.frontCollisionLineDistance * math.sin(math.radians(self.angle))
+        x_middlePointOnFrontLine  = self.x + dx
+        y_middlePointOnFrontLine = self.y + dy
+        self.frontCollisionLine[1] = Point(x_middlePointOnFrontLine, y_middlePointOnFrontLine)
+
+        dx = self.frontCollisionLineDistance * math.cos(math.radians(self.angle+30))
+        dy = self.frontCollisionLineDistance * math.sin(math.radians(self.angle+30))
+        x_middlePointOnFrontLine  = self.x + dx
+        y_middlePointOnFrontLine = self.y + dy
+        self.frontCollisionLine[2] = Point(x_middlePointOnFrontLine, y_middlePointOnFrontLine)
