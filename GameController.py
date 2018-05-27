@@ -1,11 +1,12 @@
 from Player import Player
-from Obstacle import Obstacle
+from Bot import Bot
 from Map import Map
 import time
 import pygame
 from pygame.constants import K_ESCAPE
 import sys, os
 from Point import Point
+from random import randint
 
 class GameController:
 
@@ -25,8 +26,11 @@ class GameController:
         self.map = Map(1600,668)
         self.Surface = pygame.display.set_mode((self.winWidth, self.winHeight))
         self.Surface.fill(pygame.Color(255, 255, 255))
-        self.player = Player("Test player", 890, 565)
-        #self.obstacles.append(Obstacle(0,400,200,200))
+        self.player = Player("Test player", 890, 565, 1, self.map.checkLines)
+        #self.player.angle = randint(0,360)
+
+        self.bot = Bot("Test player", 890, 565, 1, self.map.checkLines)
+        #self.bot.angle = randint(0,360)
         self.timePassed = 0
         self.done = False
 
@@ -34,32 +38,34 @@ class GameController:
     def generate_observations(self):
         return self.done, self.player.score, self.player, self.map.checkLines[self.player.checkPoint]
 
-    #Move object(player) on map
+    #Move object(players) on map
     def Move(self):
         self.timePassed = self.timePassed + 0.03
-        #time.sleep(0.1)
+ #       time.sleep(0.5)
         self.done = self.player.Move(self.map)
+        self.bot.Move(self.map)
         if(self.player.conscomands == 10):
             done = True
-#        if self.isThereObstacle(self.map)[0] == True or self.isThereObstacle(self.map)[1] == True:
- #          print(self.isThereObstacle(self.map))
         return self.done
 
 
     # Check is point on the path
-    def CheckPointOnMap(self, map, p):
+    def CheckPointOnMap(self, map, p, bot):
+        ins = False
         for t in map.TriangleList:
             if t.isInside(p):
-                return True
-        return False
+                ins = True
+        if ins:
+            ins = p.DistanceToDot(Point(bot.x,bot.y)) > 25
+        return ins
 
 
     # is there obstacle on map
     def isThereObstacle(self, map):
         ind = [False, False, False]
-        ind[0] = not self.CheckPointOnMap(self.map, self.player.frontCollisionLine[0])
-        ind[1] = not self.CheckPointOnMap(self.map, self.player.frontCollisionLine[1])
-        ind[2] = not self.CheckPointOnMap(self.map, self.player.frontCollisionLine[2])
+        ind[0] = not self.CheckPointOnMap(self.map, self.player.frontCollisionLine[0], self.bot)
+        ind[1] = not self.CheckPointOnMap(self.map, self.player.frontCollisionLine[1], self.bot)
+        ind[2] = not self.CheckPointOnMap(self.map, self.player.frontCollisionLine[2], self.bot)
         return ind
 
 
@@ -75,6 +81,9 @@ class GameController:
         carModel = pygame.transform.rotate(self.player.carModelPhoto, -self.player.angle)
         self.Surface.blit(carModel,(int(self.player.x)-20, int(self.player.y)-10))
 
+        botModel = pygame.transform.rotate(self.bot.carModelPhoto, -self.bot.angle)
+        self.Surface.blit(botModel,(int(self.bot.x)-20, int(self.bot.y)-10))
+
         pygame.display.flip()
 
 
@@ -88,25 +97,15 @@ class GameController:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
-                self.player.speed += 0.5
+                self.bot.speed += 0.5
             if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
-                self.player.speed -= 0.5
+                self.bot.speed -= 0.5
             if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-                self.player.ChangeDirection(-1)
+                self.bot.ChangeDirection(-1)
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-                self.player.ChangeDirection(1)
+                self.bot.ChangeDirection(1)
 
 
     def Score(self):
-        #print(self.player.CalculateScore(self.map.checkLines, self.timePassed))
         return self.player.CalculateScore(self.map.checkLines, self.timePassed)
-
-        '''
-        TODO:
-        1. klasa treba da je singlton klasa
-        2. Jernostavni restart igre, start igre, pauza igre
-        3. Unos imena igraca koji igra
-        4. Mogucnost izora broja botova koji icestvuju u trci
-        '''
-

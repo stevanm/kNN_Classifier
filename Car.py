@@ -8,7 +8,7 @@ import pygame
 class Car(Item):
 
     # X, Y
-    def __init__(self, x_coord, y_coord):
+    def __init__(self, x_coord, y_coord, chck, checkLine):
         self.x = x_coord
         self.y = y_coord
         self.speed = 4
@@ -28,12 +28,14 @@ class Car(Item):
         # Distance range used for collision detection
         self.frontCollisionLineDistance = 4
         self.frontDistanceRange = 4
-        self.leftDistanceRange = 0.1
-        self.rightDistanceRange = 0.1
         self.frontCollisionLine = list()
         self.frontCollisionLine.append(Point(0,0))
         self.frontCollisionLine.append(Point(0,0))
         self.frontCollisionLine.append(Point(0,0))
+        self.checkPoint = chck
+        k = checkLine[self.checkPoint-1][0]
+        self.x = k.x
+        self.y = k.y
 
         #Score
     def CalculateScore(self, checkLine, timePassed):
@@ -65,14 +67,14 @@ class Car(Item):
             else:
                 self.conscomands = 0
             self.preAngle = self.angle
-            self.angle -= 30
+            self.angle -= 10
         if(command == 1):
             if(self.lastComand == 1):
                 self.conscomands = self.conscomands + 1
             else:
                 self.conscomands = 0
             self.preAngle = self.angle
-            self.angle += 30
+            self.angle += 10
 
     # move self
     def Move(self, map):
@@ -121,28 +123,8 @@ class Car(Item):
         x_middlePointOnFrontLine  = self.x + dx
         y_middlePointOnFrontLine = self.y + dy
 
-        '''
-        x_t1 = x_middlePointOnFrontLine + self.frontDistanceRange * math.cos(math.radians(self.angle))
-        y_t1 = y_middlePointOnFrontLine + self.frontDistanceRange * math.sin(math.radians(self.angle))
-        x_t2 = x_middlePointOnFrontLine + self.frontDistanceRange * math.cos(math.radians(self.angle))
-        y_t2 = y_middlePointOnFrontLine + self.frontDistanceRange * math.sin(math.radians(self.angle))
-        print(str(Point(x_t1, y_t1)))
-        print(str(Point(x_t2, y_t2)))
-        '''
-
-        x_u = y_middlePointOnFrontLine - self.y
-        y_u = self.x - x_middlePointOnFrontLine
-        distU = math.sqrt(x_u * x_u + y_u * y_u)
-        x_t1 = x_middlePointOnFrontLine + self.frontDistanceRange/2 * (x_u /distU)
-        y_t1 = y_middlePointOnFrontLine + self.frontDistanceRange/2 * (y_u /distU)
-        x_t2 = x_middlePointOnFrontLine - self.frontDistanceRange / 2 * (x_u / distU)
-        y_t2 = y_middlePointOnFrontLine - self.frontDistanceRange / 2 * (y_u / distU)
-        self.frontCollisionLine[0] = Point(x_t1, y_t1)
-        self.frontCollisionLine[1] = Point(x_middlePointOnFrontLine, y_middlePointOnFrontLine)
-        self.frontCollisionLine[2] = Point(x_t2, y_t2)
-
-        dx = self.frontCollisionLineDistance * math.cos(math.radians(self.angle-30))
-        dy = self.frontCollisionLineDistance * math.sin(math.radians(self.angle-30))
+        dx = self.frontCollisionLineDistance * math.cos(math.radians(self.angle-10))
+        dy = self.frontCollisionLineDistance * math.sin(math.radians(self.angle-10))
         x_middlePointOnFrontLine  = self.x + dx
         y_middlePointOnFrontLine = self.y + dy
         self.frontCollisionLine[0] = Point(x_middlePointOnFrontLine, y_middlePointOnFrontLine)
@@ -153,8 +135,8 @@ class Car(Item):
         y_middlePointOnFrontLine = self.y + dy
         self.frontCollisionLine[1] = Point(x_middlePointOnFrontLine, y_middlePointOnFrontLine)
 
-        dx = self.frontCollisionLineDistance * math.cos(math.radians(self.angle+30))
-        dy = self.frontCollisionLineDistance * math.sin(math.radians(self.angle+30))
+        dx = self.frontCollisionLineDistance * math.cos(math.radians(self.angle+10))
+        dy = self.frontCollisionLineDistance * math.sin(math.radians(self.angle+10))
         x_middlePointOnFrontLine  = self.x + dx
         y_middlePointOnFrontLine = self.y + dy
         self.frontCollisionLine[2] = Point(x_middlePointOnFrontLine, y_middlePointOnFrontLine)

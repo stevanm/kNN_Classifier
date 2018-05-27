@@ -29,11 +29,3 @@ class Map:
 
     def scaleCoordinates(self, x):
         return np.array([x[0] * self.winWidth, x[1] * self.winHeight])
-
-    '''
-    TODO:
-    2. Singlton klasa
-    3. Start i EndPosition da se obradi kad je presao trku i stigao do cilja
-    '''
-
-

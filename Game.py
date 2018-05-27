@@ -1,10 +1,9 @@
 from GameController import  GameController
 
 class Game():
-    def __init__(self, board_width = 20, board_height = 20, gui = False):
+    def __init__(self, gui = False):
         self.score = 0
         self.done = False
-        self.board = {'width': board_width, 'height': board_height}
         self.gui = gui
         self.gc = GameController()
 
@@ -27,7 +26,3 @@ class Game():
             self.gc.Draw()
         return self.gc.generate_observations()
 
-
-    def end_game(self):
-        if self.gui: self.render_destroy()
-        raise Exception("Game over")

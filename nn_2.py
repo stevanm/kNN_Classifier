@@ -1,4 +1,3 @@
-from GameController import GameController
 from Game import Game
 from random import randint
 import numpy as np
@@ -10,7 +9,7 @@ from statistics import mean
 from collections import Counter
 
 class GameNN:
-    def __init__(self, initial_games = 500, test_games = 50, goal_steps = 1200, lr = 1e-2, filename = 'game_nn_2.tflearn'):
+    def __init__(self, initial_games = 1000, test_games = 100, goal_steps = 500, lr = 1e-2, filename = 'game_nn_2.tflearn'):
         self.initial_games = initial_games
         self.test_games = test_games
         self.goal_steps = goal_steps
@@ -111,7 +110,7 @@ class GameNN:
             for _ in range(self.goal_steps):
                 predictions = []
                 for action in range(-1, 2):
-                   predictions.append(model.predict(self.add_action_to_observation(prev_observation, action).reshape(-1, 5, 1)))
+                    predictions.append(model.predict(self.add_action_to_observation(prev_observation, action).reshape(-1, 5, 1)))
                 action = np.argmax(np.array(predictions))
                 game_action = action-1
                 done, score, player, checkpoint = game.step(game_action)
@@ -138,11 +137,12 @@ class GameNN:
         game = Game(gui = True)
         _, _, player, checkpoint = game.start()
         prev_observation = self.generate_observation(player, checkpoint, game)
-        for _ in range(2400):
-            precictions = []
+        for _ in range(100000):
+            game.gc.GetInput()
+            predictions = []
             for action in range(-1, 2):
-               precictions.append(model.predict(self.add_action_to_observation(prev_observation, action).reshape(-1, 5, 1)))
-            action = np.argmax(np.array(precictions))
+               predictions.append(model.predict(self.add_action_to_observation(prev_observation, action).reshape(-1, 5, 1)))
+            action = np.argmax(np.array(predictions))
             game_action = action-1
             done, _, player, checkpoint  = game.step(game_action)
             #print(done)
@@ -169,6 +169,5 @@ class GameNN:
         
 
 if __name__ == "__main__":
-    #
     #GameNN().train()
     GameNN().visualise()
