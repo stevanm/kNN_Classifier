@@ -10,9 +10,6 @@ from random import randint
 
 class GameController:
 
-    obstacles = []
-
-
     def __init__(self):
 
         #Before pygame initialization, center the game window on screen
@@ -26,11 +23,11 @@ class GameController:
         self.map = Map(1600,668)
         self.Surface = pygame.display.set_mode((self.winWidth, self.winHeight))
         self.Surface.fill(pygame.Color(255, 255, 255))
-        self.player = Player("Test player", 890, 565, 1, self.map.checkLines)
-        #self.player.angle = randint(0,360)
+        self.player = Player("Test player", 890, 565, randint(1,11), self.map.checkLines)
+        self.player.angle = randint(0,360)
 
-        self.bot = Bot("Test player", 890, 565, 1, self.map.checkLines)
-        #self.bot.angle = randint(0,360)
+        self.bot = Bot("Test player", 890, 565, randint(1,11), self.map.checkLines)
+        self.bot.angle = randint(0,360)
         self.timePassed = 0
         self.done = False
 

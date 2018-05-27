@@ -14,15 +14,12 @@ class Game():
 
 
     def step(self, game_action):
-        #print(game_action)
         if self.gc.done == True:
             self.end_game()
         self.gc.player.ChangeDirection(game_action)
         self.done = self.gc.Move()
         self.score = self.gc.Score()
         self.gc.done = self.done
-        #print(self.done)
         if self.gui:
             self.gc.Draw()
         return self.gc.generate_observations()
-

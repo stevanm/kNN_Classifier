@@ -42,16 +42,13 @@ class Car(Item):
         p = Point(self.x, self.y)
         k = checkLine[self.checkPoint]
         distance = p.Distance(k)
-#        print(distance)
         if self.startDistance == 0:
             self.startDistance = distance
-        #self.score = self.checkPoint*500 + 500 -(distance-20)/self.startDistance * 500 - timePassed
         if distance < 50:
             self.checkPoint = (self.checkPoint+1) % 22
             self.score = self.score + 1
             self.startDistance = 0
         return self.score
-        #print(int(self.score))
 
     # Check is vehicle on the map
     def CheckAmIOnMap(self, map):

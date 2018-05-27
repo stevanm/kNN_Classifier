@@ -8,8 +8,8 @@ from tflearn.layers.estimator import regression
 from statistics import mean
 from collections import Counter
 
-class GameNN:
-    def __init__(self, initial_games = 1000, test_games = 100, goal_steps = 500, lr = 1e-2, filename = 'game_nn_2.tflearn'):
+class GameMLSmart:
+    def __init__(self, initial_games = 1000, test_games = 100, goal_steps = 500, lr = 1e-2, filename = 'game_mlsmart.tflearn'):
         self.initial_games = initial_games
         self.test_games = test_games
         self.goal_steps = goal_steps
@@ -67,16 +67,6 @@ class GameNN:
 
     def get_checkpoint_distance(self, player, checkpoint):
         return np.linalg.norm(self.get_checkpoint_direction_vector(player, checkpoint))
-
-    def is_direction_blocked(self, player, direction):
-        point = np.array(player[0]) + np.array(direction)
-        return point.tolist() in player[:-1] or point[0] == 0 or point[1] == 0 or point[0] == 21 or point[1] == 21
-
-    def turn_vector_to_the_left(self, vector):
-        return np.array([-vector[1], vector[0]])
-
-    def turn_vector_to_the_right(self, vector):
-        return np.array([vector[1], -vector[0]])
 
     def get_angle(self, a, b):
         a = self.normalize_vector(a)
@@ -141,11 +131,10 @@ class GameNN:
             game.gc.GetInput()
             predictions = []
             for action in range(-1, 2):
-               predictions.append(model.predict(self.add_action_to_observation(prev_observation, action).reshape(-1, 5, 1)))
+                predictions.append(model.predict(self.add_action_to_observation(prev_observation, action).reshape(-1, 5, 1)))
             action = np.argmax(np.array(predictions))
             game_action = action-1
             done, _, player, checkpoint  = game.step(game_action)
-            #print(done)
             if done:
                 break
             else:
@@ -169,5 +158,5 @@ class GameNN:
         
 
 if __name__ == "__main__":
-    #GameNN().train()
-    GameNN().visualise()
+    GameMLSmart().train()
+    #GameMLSmart().visualise()

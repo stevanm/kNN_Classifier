@@ -25,7 +25,3 @@ class Map:
                        [Point(150, 170), Point(150, 171)], [Point(110, 370), Point(110, 371)], \
                        [Point(200, 520), Point(200, 521)], [Point(420, 520), Point(420, 521)], \
                        [Point(560, 440), Point(560, 441)], [Point(750, 550), Point(750, 551)]]
-
-
-    def scaleCoordinates(self, x):
-        return np.array([x[0] * self.winWidth, x[1] * self.winHeight])

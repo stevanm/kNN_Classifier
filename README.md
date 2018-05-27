@@ -11,6 +11,6 @@ About mlSmart game:
 
 - The second part is game simulation for one player and one AI player. AI for the first time see player, and compete with him.
 
-- AI player is implemented using neural network by tensorflow library.
+- AI player is implemented using neural network by TensorFlow library.
 
 
