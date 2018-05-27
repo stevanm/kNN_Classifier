@@ -158,5 +158,5 @@ class GameMLSmart:
         
 
 if __name__ == "__main__":
-    GameMLSmart().train()
-    #GameMLSmart().visualise()
+    #GameMLSmart().train()
+    GameMLSmart().visualise()
