@@ -20,5 +20,12 @@ class Triangle:
                 self.vectorProduct(p, self.p2, self.p3) <= 0 and \
                 self.vectorProduct(p, self.p3, self.p1) <= 0)
 
+    def Centroid(self):
+        a = self.p1
+        b = self.p2
+        c = self.p3
+        return Point((a.x + b.x + c.x)/3, (a.y + b.y + c.y)/3)
+
+
     def __str__(self):
         return "(" + str(self.p1) + ", " + str(self.p2) + ", " + str(self.p3) + ")"
