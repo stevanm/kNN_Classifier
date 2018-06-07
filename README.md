@@ -1,8 +1,6 @@
 # mlSmart game
 Machine Learning Smart (mlSmart) game
 
-- GitHub link:  https://github.com/stevanm/mlSmart/tree/Final
-
 - Library and packet requirements:
 	- numpy
 	- pygame
@@ -24,11 +22,8 @@ Machine Learning Smart (mlSmart) game
 
 	- AI player is implemented using neural network by TensorFlow library.
 
-- Autors: Stevan Milic (stevanmilic@gmail.com) and Ivan Nedic (nedicivan.nedic@gmail.com)
+- Autors: 
+	- Stevan Milic (stevanmilic@gmail.com)
+	- Ivan Nedic (nedicivan.nedic@gmail.com)
 
 - The first step is to train the AI player and after that start game (see code in GameMLSmart.py)
-
-
-
-
-
